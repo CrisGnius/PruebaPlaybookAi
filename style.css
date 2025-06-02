@@ -1,0 +1,481 @@
+/* Define CSS Variables (Custom Properties) */
+:root {
+    --primary-color: #00a3a3;
+    --secondary-color: #e0f2f1;
+    --background-color: #f9f9f9;
+    --text-color: #333;
+    --light-gray: #ddd;
+    --dialogue-assistant: #e0f7fa;
+    --dialogue-user: #f0f0f0;
+
+    /* Dark Mode Colors */
+    --dark-primary-color: #007979; /* Verde azulado oscuro */
+    --dark-secondary-color: #005050;
+    --dark-background-color: #121212;
+    --dark-text-color: #eee; /* Este es el color blanco/gris claro que quieres */
+    --dark-light-gray: #444; /* Este es el gris más claro que mencionas */
+    --dark-dialogue-assistant: #263238;
+    --dark-dialogue-user: #37474f;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-size: 1.1rem; /* Increased base font size */
+}
+
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header h1 {
+    font-size: 1.75em; /* Use em for relative sizing */
+    margin: 0;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+}
+
+header h1 .book-icon {
+    margin-right: 0.5rem;
+    font-size: 1.5em; /* Use em for relative sizing */
+}
+
+.theme-toggle {
+    display: flex;
+    align-items: center;
+}
+
+.theme-toggle i {
+    margin: 0 0.5rem;
+    color: white;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: var(--dark-primary-color);
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px var(--dark-primary-color);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.main-container {
+    display: flex;
+    min-height: calc(100vh - 6rem); /* Subtract header height */
+}
+
+aside.activity-list {
+    width: 200px;
+    background-color: var(--secondary-color);
+    padding: 1rem;
+    border-right: 1px solid var(--light-gray);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
+}
+
+aside.activity-list h2 {
+    font-size: 1.25em; /* Use em for relative sizing */
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+aside.activity-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+aside.activity-list li {
+    margin-bottom: 0.75rem;
+}
+
+aside.activity-list a {
+    color: var(--text-color);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em; /* Larger font size */
+    width: auto; /* Adjust width to content */
+    padding: 0.5rem 1.2rem; /* Vertical and horizontal padding */
+    background-color: rgba(0, 0, 0, 0.1); /* Change background color */
+    border-radius: 30px; /* Rounded corners */
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;
+    transition: background-color 0.2s ease;
+}
+
+aside.activity-list a:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+aside.activity-list a i {
+    margin-right: 0.5rem; /* Add spacing between the icon and number */
+}
+
+.sidebar-info {
+    margin-top: auto; /* Push to the bottom */
+    font-size: 0.8em; /* Use em for relative sizing */
+    color: #666;
+}
+
+.sidebar-info p {
+    margin-bottom: 0.5rem;
+}
+
+main.content {
+    flex: 1;
+    padding: 1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    overflow-y: auto;
+}
+
+.progress-bar {
+    background-color: var(--light-gray);
+    height: 0.7rem; /* Thicker progress bar */
+    margin-bottom: 1.5rem;
+    border-radius: 5px; /* Rounded edges */
+    overflow: hidden; /* Hide overflow to apply border-radius */
+}
+
+.progress {
+    background-color: var(--primary-color);
+    height: 100%;
+    width: 0%; /* Initial width */
+    transition: width 0.3s ease;
+    border-radius: 5px; /* Rounded edges */
+}
+
+.activity-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    transition: opacity 0.333s ease; /* Faster transition */
+    opacity: 0; /* Initially set opacity to 0 */
+    position: absolute; /* Use absolute positioning */
+    width: calc(100% - 2rem); /* Set width to container width minus padding */
+}
+
+.activity-card.active {
+    display: block;
+    opacity: 1; /* Fade in active card */
+    position: relative; /* Reset positioning for active card */
+}
+
+/* Reverted the style because we'll put new styles on it */
+.steps {
+    display: block;
+}
+
+/* Reverted the style because we'll put new styles on it */
+.step-card {
+     background-color: var(--secondary-color);
+    border-radius: 6px;
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+    transition: background-color 0.3s ease;
+}
+
+.step-card h3 {
+    font-size: 1.1rem; /* Increased Step Title Font Size */
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.step-card p {
+    color: #666;
+    font-size: 1em; /* Adjusted size for step descriptions */
+}
+
+/* Specific to the direct child p of activity-card */
+.activity-card > p {
+    color: #666; /* Activity Description Style */
+    font-size: 1em; /* Adjusted size for activity descriptions */
+}
+
+/* Multi-Column Step Cards */
+.steps {
+    display: grid;
+    grid-template-columns: 1fr; /* One column at the beggining */
+    gap: 1rem;
+}
+
+.step-card {
+    background-color: var(--secondary-color);
+    border-radius: 6px;
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+    transition: background-color 0.3s ease;
+    display: grid;
+    grid-template-columns: 1fr; /* One Column at First */
+}
+
+.step-content {
+    margin-bottom: 0.75rem; /* Added some spacing */
+}
+
+.dialogue.assistant {
+    background-color: var(--dialogue-assistant);
+    text-align: left;
+    color: var(--text-color);
+    padding: 0.75rem;
+    border-radius: 6px;
+}
+
+/* Collapsible */
+
+.collapsible {
+    margin-top: 0.75rem;
+}
+
+.collapsible-button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.5rem 0.75rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s ease;
+    margin: 0 auto;
+}
+
+.collapsible-button:hover {
+    background-color: var(--dark-primary-color);
+}
+
+.collapsible-content {
+    padding: 0.75rem;
+    border: 1px solid var(--light-gray); /* Aquí está la línea original */
+    border-radius: 4px;
+    margin-top: 0.5rem;
+    display: none; /* Hidden by default */
+}
+
+.dialogue {
+    font-style: italic;
+    padding: 0.5rem;
+    border-radius: 4px;
+}
+
+.dialogue.assistant {
+    background-color: var(--dialogue-assistant);
+    text-align: left;
+    color: var(--text-color);
+}
+
+.dialogue.user {
+    background-color: var(--dialogue-user);
+    text-align: right;
+    color: var(--text-color);
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: var(--dark-background-color);
+    color: var(--dark-text-color);
+}
+
+body.dark-mode .activity-card {
+    background-color: var(--dark-light-gray);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .activity-card h2,
+body.dark-mode .step-card h3 {
+    color: var(--dark-text-color);
+}
+
+body.dark-mode .step-card {
+    background-color: var(--dark-secondary-color);
+}
+
+/* *** NUEVO CAMBIO: Borde del contenido colapsable (diálogos) en modo oscuro *** */
+body.dark-mode .collapsible-content {
+    border-color: var(--dark-text-color); /* Cambia el color del borde a blanco (#eee) */
+}
+
+body.dark-mode .dialogue.assistant {
+    background-color: var(--dark-dialogue-assistant);
+    color: var(--dark-text-color);
+}
+
+body.dark-mode .dialogue.user {
+    background-color: var(--dark-dialogue-user);
+    color: var(--dark-text-color);
+}
+
+body.dark-mode .progress-bar {
+    background-color: var(--dark-light-gray);
+}
+
+body.dark-mode aside.activity-list {
+    background-color: var(--dark-secondary-color);
+    border-color: var(--dark-light-gray);
+}
+
+body.dark-mode aside.activity-list h2 {
+    color: var(--dark-text-color);
+}
+
+body.dark-mode aside.activity-list a {
+    color: var(--dark-text-color);
+    background-color: var(--dark-primary-color);
+}
+
+body.dark-mode aside.activity-list a:hover {
+    background-color: var(--primary-color);
+}
+
+body.dark-mode .sidebar-info {
+   color: #ccc;
+}
+
+body.dark-mode .activity-card > p {
+    color: var(--dark-text-color);
+}
+
+body.dark-mode .step-card p {
+    color: #ccc;
+}
+
+
+body.dark-mode #toggle-dialogues {
+    background-color: var(--dark-primary-color);
+}
+
+/* Hide all activity cards by default */
+.activity-card {
+    display: none;
+}
+
+/* Style for the active activity card */
+.activity-card.active {
+    display: block;
+}
+
+#toggle-dialogues {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+    margin-bottom: 1.5rem;
+}
+
+#toggle-dialogues:hover {
+    background-color: var(--dark-primary-color);
+}
+
+.timer-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    color: white; /* Timer Number in White */
+    font-size: 1.2rem;
+    padding: 0.75rem 1rem;
+    border-radius: 15px;
+    background-color: rgba(0,0,0, 0.2);
+}
+
+.timer-container button {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    border: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.timer-container button:hover {
+    background-color: #b2dfdb;
+}
+
+.header-widgets {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+/* Two column grid layout for step cards */
+@media (min-width: 768px) {
+    .steps {
+        grid-template-columns: 1fr; /* Two columns on larger screens */
+    }
+
+    .step-card {
+        grid-template-columns: 1fr 1fr; /* Two columns on larger screens */
+    }
+
+    .step-content {
+        margin-bottom: 0rem; /* No vertical space */
+    }
+}
