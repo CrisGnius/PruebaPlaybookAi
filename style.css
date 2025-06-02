@@ -36,8 +36,10 @@ header {
     text-align: center;
     margin-bottom: 1rem;
     display: flex;
+    flex-wrap: wrap; /* NEW: Permite que los elementos se envuelvan a la siguiente línea si no hay espacio */
     align-items: center;
     justify-content: space-between;
+    gap: 1rem; /* NEW: Espacio entre los elementos de la cabecera */
 }
 
 header h1 {
@@ -46,8 +48,12 @@ header h1 {
     font-weight: 700;
     display: flex;
     align-items: center;
+    /* NEW: Asegura que el título ocupe todo el ancho en pantallas pequeñas si es necesario */
+    flex-grow: 1;
+    justify-content: center; /* Centra el título en pantallas pequeñas */
 }
 
+/* El book-icon debería ser un <i> si es de Font Awesome */
 header h1 .book-icon {
     margin-right: 0.5rem;
     font-size: 1.5em; /* Use em for relative sizing */
@@ -56,11 +62,8 @@ header h1 .book-icon {
 .theme-toggle {
     display: flex;
     align-items: center;
-}
-
-.theme-toggle i {
-    margin: 0 0.5rem;
-    color: white;
+    /* NEW: Asegura que el toggle ocupe el espacio necesario */
+    flex-shrink: 0;
 }
 
 .switch {
@@ -118,36 +121,44 @@ input:checked + .slider:before {
     border-radius: 50%;
 }
 
+/* NEW: Estilos para el main-container en móvil (default) */
 .main-container {
     display: flex;
+    flex-direction: column; /* Apila la barra lateral y el contenido */
     min-height: calc(100vh - 6rem); /* Subtract header height */
 }
 
 aside.activity-list {
-    width: 200px;
+    width: 100%; /* Ocupa todo el ancho en móvil */
     background-color: var(--secondary-color);
     padding: 1rem;
-    border-right: 1px solid var(--light-gray);
+    border-right: none; /* Sin borde a la derecha en móvil */
+    border-bottom: 1px solid var(--light-gray); /* Añade un borde inferior para separarse del contenido */
     transition: background-color 0.3s ease, border-color 0.3s ease;
     overflow-y: auto;
     display: flex;
-    flex-direction: column; /* Stack content vertically */
+    flex-direction: column;
 }
 
 aside.activity-list h2 {
     font-size: 1.25em; /* Use em for relative sizing */
     margin-bottom: 1rem;
     color: var(--text-color);
+    text-align: center; /* Centra el título de actividades en móvil */
 }
 
 aside.activity-list ul {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex; /* NEW: Hace que los elementos de la lista se pongan en fila */
+    flex-wrap: wrap; /* NEW: Permite que los números se envuelvan a la siguiente línea */
+    justify-content: center; /* NEW: Centra los números horizontalmente */
+    gap: 0.75rem; /* NEW: Espacio entre los números */
 }
 
 aside.activity-list li {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0; /* Remove margin-bottom to avoid extra space between wrapped items */
 }
 
 aside.activity-list a {
@@ -175,13 +186,15 @@ aside.activity-list a i {
 }
 
 .sidebar-info {
-    margin-top: auto; /* Push to the bottom */
+    margin-top: 1rem; /* Push to the bottom or add space after numbers */
     font-size: 0.8em; /* Use em for relative sizing */
     color: #666;
+    padding: 0 0.5rem; /* Añade un poco de padding horizontal para el texto informativo */
 }
 
 .sidebar-info p {
     margin-bottom: 0.5rem;
+    text-align: center; /* Centra el texto informativo en móvil */
 }
 
 main.content {
@@ -225,12 +238,10 @@ main.content {
     position: relative; /* Reset positioning for active card */
 }
 
-/* Reverted the style because we'll put new styles on it */
 .steps {
     display: block;
 }
 
-/* Reverted the style because we'll put new styles on it */
 .step-card {
      background-color: var(--secondary-color);
     border-radius: 6px;
@@ -250,16 +261,15 @@ main.content {
     font-size: 1em; /* Adjusted size for step descriptions */
 }
 
-/* Specific to the direct child p of activity-card */
 .activity-card > p {
     color: #666; /* Activity Description Style */
     font-size: 1em; /* Adjusted size for activity descriptions */
 }
 
-/* Multi-Column Step Cards */
+/* Multi-Column Step Cards (Default para móvil, una columna) */
 .steps {
     display: grid;
-    grid-template-columns: 1fr; /* One column at the beggining */
+    grid-template-columns: 1fr;
     gap: 1rem;
 }
 
@@ -270,7 +280,7 @@ main.content {
     margin-bottom: 0.75rem;
     transition: background-color 0.3s ease;
     display: grid;
-    grid-template-columns: 1fr; /* One Column at First */
+    grid-template-columns: 1fr; /* Una columna por defecto (contenido y diálogo apilados) */
 }
 
 .step-content {
@@ -300,7 +310,8 @@ main.content {
     cursor: pointer;
     font-size: 0.9em;
     transition: background-color 0.2s ease;
-    margin: 0 auto;
+    margin: 0 auto; /* Centrar el botón */
+    display: block; /* Asegura que el margin auto funcione */
 }
 
 .collapsible-button:hover {
@@ -309,7 +320,7 @@ main.content {
 
 .collapsible-content {
     padding: 0.75rem;
-    border: 1px solid var(--light-gray); /* Aquí está la línea original */
+    border: 1px solid var(--light-gray);
     border-radius: 4px;
     margin-top: 0.5rem;
     display: none; /* Hidden by default */
@@ -318,7 +329,7 @@ main.content {
 .dialogue {
     font-style: italic;
     padding: 0.5rem;
-    border-radius: 4px;
+    border-radius: 44px; /* Un poco más redondeado, si quieres */
 }
 
 .dialogue.assistant {
@@ -339,6 +350,10 @@ body.dark-mode {
     color: var(--dark-text-color);
 }
 
+body.dark-mode header {
+    background-color: var(--dark-primary-color);
+}
+
 body.dark-mode .activity-card {
     background-color: var(--dark-light-gray);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
@@ -353,9 +368,8 @@ body.dark-mode .step-card {
     background-color: var(--dark-secondary-color);
 }
 
-/* *** NUEVO CAMBIO: Borde del contenido colapsable (diálogos) en modo oscuro *** */
 body.dark-mode .collapsible-content {
-    border-color: var(--dark-text-color); /* Cambia el color del borde a blanco (#eee) */
+    border-color: var(--dark-text-color);
 }
 
 body.dark-mode .dialogue.assistant {
@@ -402,19 +416,8 @@ body.dark-mode .step-card p {
     color: #ccc;
 }
 
-
 body.dark-mode #toggle-dialogues {
     background-color: var(--dark-primary-color);
-}
-
-/* Hide all activity cards by default */
-.activity-card {
-    display: none;
-}
-
-/* Style for the active activity card */
-.activity-card.active {
-    display: block;
 }
 
 #toggle-dialogues {
@@ -427,6 +430,10 @@ body.dark-mode #toggle-dialogues {
     font-size: 1rem;
     transition: background-color 0.2s ease;
     margin-bottom: 1.5rem;
+    display: block; /* NEW: Asegura que el botón ocupe su propia línea */
+    width: fit-content; /* NEW: Se ajusta al contenido */
+    margin-left: auto; /* NEW: Centra el botón */
+    margin-right: auto; /* NEW: Centra el botón */
 }
 
 #toggle-dialogues:hover {
@@ -443,6 +450,22 @@ body.dark-mode #toggle-dialogues {
     padding: 0.75rem 1rem;
     border-radius: 15px;
     background-color: rgba(0,0,0, 0.2);
+    /* NEW: Permite que el timer se ajuste en pantallas pequeñas */
+    flex-grow: 1;
+    justify-content: center;
+}
+
+body.dark-mode .timer-container {
+    color: var(--dark-text-color);
+}
+
+body.dark-mode .timer-container button {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+}
+
+body.dark-mode .timer-container button:hover {
+    background-color: #b2dfdb;
 }
 
 .timer-container button {
@@ -463,19 +486,90 @@ body.dark-mode #toggle-dialogues {
     display: flex;
     gap: 20px;
     align-items: center;
+    flex-wrap: wrap; /* NEW: Permite que los widgets se envuelvan */
+    justify-content: center; /* NEW: Centra los widgets en pantallas pequeñas */
+    flex-grow: 1; /* NEW: Permite que el contenedor de widgets crezca */
 }
 
-/* Two column grid layout for step cards */
+
+/* Hide all activity cards by default */
+.activity-card {
+    display: none;
+}
+
+/* Style for the active activity card */
+.activity-card.active {
+    display: block;
+}
+
+/* Media Query para pantallas medianas y grandes (Desktop) */
 @media (min-width: 768px) {
+    /* Main Layout */
+    .main-container {
+        flex-direction: row; /* Vuelve a poner la barra lateral y el contenido uno al lado del otro */
+    }
+
+    aside.activity-list {
+        width: 200px; /* Ancho fijo de la barra lateral en desktop */
+        border-right: 1px solid var(--light-gray); /* Borde a la derecha */
+        border-bottom: none; /* Sin borde inferior */
+        padding: 1rem; /* Padding original */
+    }
+
+    aside.activity-list h2,
+    .sidebar-info p {
+        text-align: left; /* Alinea el texto a la izquierda en desktop */
+    }
+
+    aside.activity-list ul {
+        flex-direction: column; /* Vuelve a apilar los números verticalmente */
+        align-items: flex-start; /* Alinea a la izquierda */
+        gap: 0; /* Sin gap entre los li */
+    }
+
+    aside.activity-list li {
+        margin-bottom: 0.75rem; /* Vuelve al margen original */
+    }
+
+    /* Step Cards - Dos columnas en pantallas más grandes */
     .steps {
-        grid-template-columns: 1fr; /* Two columns on larger screens */
+        grid-template-columns: 1fr; /* Una columna a 768px, luego ajustaremos a 2 */
     }
 
     .step-card {
-        grid-template-columns: 1fr 1fr; /* Two columns on larger screens */
+        grid-template-columns: 1fr 1fr; /* Divide el contenido y el diálogo en 2 columnas */
     }
 
     .step-content {
         margin-bottom: 0rem; /* No vertical space */
     }
+
+    /* Header - Vuelve a la alineación de desktop */
+    header h1 {
+        flex-grow: 0; /* No crece para ocupar todo el ancho */
+        justify-content: flex-start; /* Alinea a la izquierda */
+    }
+
+    .header-widgets {
+        flex-grow: 0; /* No crece para ocupar todo el ancho */
+        justify-content: flex-end; /* Alinea a la derecha */
+    }
+
+    .timer-container {
+        flex-grow: 0; /* No crece para ocupar todo el ancho */
+        justify-content: flex-end; /* Alinea a la derecha */
+    }
+
+    #toggle-dialogues {
+        margin-left: 0; /* Elimina el centrado en desktop */
+        margin-right: auto; /* Lo alinea a la izquierda */
+        width: auto; /* Vuelve a su ancho normal si se había ajustado */
+    }
 }
+
+/* Puedes añadir más media queries si necesitas más puntos de ruptura, por ejemplo: */
+/* @media (min-width: 1024px) {
+    aside.activity-list {
+        width: 250px; // Un poco más ancha la sidebar
+    }
+} */
