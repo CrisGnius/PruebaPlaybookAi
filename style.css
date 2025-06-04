@@ -54,10 +54,10 @@ header h1 {
     width: 100%; /* Asegura que el título ocupe todo el ancho disponible */
 }
 
-/* Asumiendo que el ícono es ahora un <i> de Font Awesome */
+/* Asumiendo que el ícono es ahora un <span> con texto o un <i> de Font Awesome */
 header h1 .book-icon {
     margin-right: 0.5rem;
-    font-size: 1.5em;
+    font-size: 1.2em; /* Ajustado para que se vea bien con el texto */
 }
 
 .header-widgets {
@@ -141,13 +141,12 @@ header h1 .book-icon {
     transition: .4s;
 }
 
-/* *** CORRECCIÓN AQUÍ: Color del slider del switch en modo oscuro *** */
 input:checked + .slider {
-    background-color: var(--primary-color); /* Cambiado a var(--primary-color) (verde claro) */
+    background-color: var(--primary-color);
 }
 
 input:focus + .slider {
-    box-shadow: 0 0 1px var(--dark-primary-color);
+    box-shadow: 0 0 1px var(--primary-color); /* Usar primary color para consistencia */
 }
 
 input:checked + .slider:before {
@@ -209,7 +208,7 @@ aside.activity-list a {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5em;
+    font-size: 1.5em; /* Tamaño para los números */
     width: auto;
     padding: 0.5rem 1.2rem;
     background-color: rgba(0, 0, 0, 0.1);
@@ -218,13 +217,15 @@ aside.activity-list a {
     font-family: 'Arial', sans-serif;
     transition: background-color 0.2s ease;
 }
+/* Estilo específico para el enlace "De un Vistazo" si es un ícono o texto corto */
+aside.activity-list a[href="#activity-0"] {
+    font-size: 1.3em; /* Ligeramente más pequeño si es un ícono */
+    padding: 0.6rem 1rem; /* Ajustar padding */
+}
+
 
 aside.activity-list a:hover {
     background-color: rgba(0, 0, 0, 0.2);
-}
-
-aside.activity-list a i {
-    margin-right: 0.5rem;
 }
 
 .sidebar-info {
@@ -303,10 +304,24 @@ main.content {
     position: relative; /* Reset positioning for active card */
 }
 
+.activity-card > h2 {
+    display: flex; /* Para alinear el ícono con el texto del título */
+    align-items: center;
+    font-size: 1.5em; /* Tamaño del título de la actividad */
+    margin-bottom: 0.5rem; /* Reducido para acercar el subtítulo */
+}
+
+.activity-card > h2 .book-icon { /* Ícono dentro del h2 de la activity card */
+    margin-right: 0.5rem;
+    font-size: 1em; /* Relativo al h2 */
+}
+
 .activity-card > p {
     color: #666; /* Activity Description Style */
     font-size: 1em; /* Adjusted size for activity descriptions */
+    margin-bottom: 1rem; /* Espacio después de la descripción general de la actividad */
 }
+
 
 /* Steps and Step Cards */
 .steps {
@@ -388,6 +403,80 @@ main.content {
     color: var(--text-color);
 }
 
+/* Estilos específicos para "De un Vistazo" */
+.overview-subtitle {
+    font-size: 0.9em;
+    color: #777;
+    margin-top: -0.2rem; /* Ajusta el espacio después del título h2 */
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.overview-table-container {
+    margin-top: 1rem;
+    overflow-x: auto; /* Para tablas anchas en móviles */
+}
+
+.overview-table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.overview-table-container th,
+.overview-table-container td {
+    border: 1px solid var(--light-gray);
+    padding: 0.75rem;
+    text-align: left;
+    vertical-align: top;
+}
+
+.overview-table-container th {
+    background-color: var(--secondary-color);
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.overview-table-container ul,
+.overview-table-container ol {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding-left: 1.2rem;
+}
+
+.overview-table-container li {
+    margin-bottom: 0.3rem;
+}
+
+.overview-table-container strong { /* Estilo general para los "strong" dentro de la tabla */
+    font-weight: 500;
+}
+
+.overview-table-container td > strong { /* Para los títulos de sección como "Objetivos:", "Tácticas:" */
+    color: var(--primary-color);
+    display: block; 
+    margin-bottom: 0.3rem;
+    font-weight: 700; 
+}
+
+
+.overview-table-container .tactic-highlight strong {
+    color: #d32f2f; 
+    font-weight: bold; 
+}
+
+.overview-table-container a {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+/* Asegúrate que el contenido de "De un vistazo" no tenga steps o collapsible heredados */
+#activity-0 .steps,
+#activity-0 .collapsible {
+    display: none !important; 
+}
+
+
 /* DARK MODE STYLES - Aplicados sobre los estilos base (mobile) */
 body.dark-mode {
     background-color: var(--dark-background-color);
@@ -399,7 +488,7 @@ body.dark-mode header {
 }
 
 body.dark-mode .activity-card {
-    background-color: var(--dark-light-gray);
+    background-color: var(--dark-light-gray); 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
@@ -409,11 +498,11 @@ body.dark-mode .step-card h3 {
 }
 
 body.dark-mode .step-card {
-    background-color: var(--dark-secondary-color);
+    background-color: var(--dark-secondary-color); 
 }
 
 body.dark-mode .collapsible-content {
-    border-color: var(--dark-text-color);
+    border-color: var(--dark-text-color); 
 }
 
 body.dark-mode .dialogue.assistant {
@@ -441,22 +530,26 @@ body.dark-mode aside.activity-list h2 {
 
 body.dark-mode aside.activity-list a {
     color: var(--dark-text-color);
-    background-color: var(--dark-primary-color);
+    background-color: var(--dark-primary-color); 
+}
+body.dark-mode aside.activity-list a[href="#activity-0"] {
+    /* Mantener consistencia o ajustar si es necesario */
 }
 
+
 body.dark-mode aside.activity-list a:hover {
-    background-color: var(--primary-color);
+    background-color: var(--primary-color); 
 }
 
 body.dark-mode .sidebar-info {
    color: #ccc;
 }
 
-body.dark-mode .activity-card > p {
-    color: var(--dark-text-color);
+body.dark-mode .activity-card > p { 
+    color: #bbb; 
 }
 
-body.dark-mode .step-card p {
+body.dark-mode .step-card p { 
     color: #ccc;
 }
 
@@ -469,7 +562,7 @@ body.dark-mode .timer-container {
 }
 
 body.dark-mode .timer-container button {
-    background-color: var(--secondary-color);
+    background-color: var(--secondary-color); 
     color: var(--text-color);
 }
 
@@ -477,29 +570,52 @@ body.dark-mode .timer-container button:hover {
     background-color: #b2dfdb;
 }
 
+/* Dark Mode para "De un Vistazo" */
+body.dark-mode .overview-subtitle {
+    color: #bbb;
+}
+
+body.dark-mode .overview-table-container th,
+body.dark-mode .overview-table-container td {
+    border-color: #ccc; /* LÍNEAS DE TABLA EN MODO OSCURO */
+}
+
+body.dark-mode .overview-table-container th {
+    background-color: var(--dark-secondary-color); 
+    color: var(--dark-text-color);
+}
+
+body.dark-mode .overview-table-container td > strong { 
+    color: #66d9ef; 
+}
+
+body.dark-mode .overview-table-container .tactic-highlight strong {
+    color: #ff7979; 
+}
+
+body.dark-mode .overview-table-container a {
+    color: #66d9ef; 
+}
+
 
 /* MEDIA QUERY FOR DESKTOP (or larger tablets) */
 @media (min-width: 768px) {
     /* HEADER - Desktop Layout */
     header {
-        flex-direction: row; /* Vuelve a poner el título y los widgets en fila */
-        justify-content: space-between; /* Espacio entre ellos */
-        align-items: center; /* Alinea verticalmente */
+        flex-direction: row; 
+        justify-content: space-between; 
+        align-items: center; 
     }
 
     header h1 {
-        justify-content: flex-start; /* Alinea el título a la izquierda */
-        width: auto; /* Ancho automático */
+        justify-content: flex-start; 
+        width: auto; 
     }
 
     .header-widgets {
-        flex-direction: row; /* Vuelve a poner el timer y el theme toggle en fila */
-        width: auto; /* Ancho automático */
-        justify-content: flex-end; /* Alinea los widgets a la derecha */
-    }
-
-    .timer-container {
-        justify-content: flex-end; /* Alinea el timer a la derecha */
+        flex-direction: row; 
+        width: auto; 
+        justify-content: flex-end; 
     }
 
     /* MAIN LAYOUT - Desktop Layout: Sidebar y Content lado a lado */
@@ -509,49 +625,109 @@ body.dark-mode .timer-container button:hover {
 
     /* ASIDE (Activity List) - Desktop Layout */
     aside.activity-list {
-        width: 200px; /* Ancho fijo de la barra lateral en desktop */
-        border-right: 1px solid var(--light-gray); /* Vuelve el borde a la derecha */
-        border-bottom: none; /* Elimina el borde inferior */
-        padding: 1rem; /* Padding original */
+        width: 200px; 
+        border-right: 1px solid var(--light-gray); 
+        border-bottom: none; 
+        padding: 1rem; 
     }
 
     aside.activity-list h2 {
-        text-align: left; /* Alinea el título de actividades a la izquierda */
+        text-align: left; 
     }
 
     aside.activity-list ul {
-        flex-direction: column; /* Vuelve a apilar los números verticalmente */
-        align-items: flex-start; /* Alinea a la izquierda */
-        gap: 0; /* Elimina el gap entre los li */
+        flex-direction: column; 
+        align-items: flex-start; 
+        gap: 0; 
     }
 
     aside.activity-list li {
-        margin-bottom: 0.75rem; /* Vuelve al margen original */
+        margin-bottom: 0.75rem; 
     }
 
     .sidebar-info p {
-        text-align: left; /* Alinea el texto informativo a la izquierda */
+        text-align: left; 
     }
 
     /* Toggle Dialogues Button - Desktop Layout */
     #toggle-dialogues {
-        margin-left: 0; /* Elimina el centrado */
-        margin-right: auto; /* Lo alinea a la izquierda */
-        width: auto; /* Ancho automático */
+        margin-left: 0; 
+        margin-right: auto; 
+        width: auto; 
     }
 
     /* Step Cards - Two column grid layout for steps */
     .step-card {
-        grid-template-columns: 1fr 1fr; /* Divide el contenido y el diálogo en 2 columnas */
+        grid-template-columns: 1fr 1fr; 
+        gap: 1rem; 
     }
 
     .step-content {
-        margin-bottom: 0rem; /* No vertical space */
+        margin-bottom: 0rem; 
     }
 
-    /* Centra el botón colapsable si está en una columna */
     .collapsible-button {
         margin: 0 auto;
         display: block;
     }
+    .overview-table-container {
+        /* No specific changes for desktop unless the table is too cramped */
+    }
+}
+
+/* Responsive para la tabla de "De un Vistazo" en móviles (si se quiere apilar) */
+@media (max-width: 600px) { 
+    .overview-table-container table,
+    .overview-table-container thead,
+    .overview-table-container tbody,
+    .overview-table-container th,
+    .overview-table-container td,
+    .overview-table-container tr {
+        display: block;
+    }
+
+    .overview-table-container thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px; 
+    }
+
+    .overview-table-container tr {
+        margin-bottom: 1rem;
+        border: 1px solid var(--light-gray);
+        border-radius: 4px;
+    }
+    body.dark-mode .overview-table-container tr {
+        border-color: #ccc; /* LÍNEAS DE TABLA (TR) EN MODO OSCURO - VISTA APILADA */
+    }
+
+
+    .overview-table-container td {
+        border: none;
+        border-bottom: 1px solid var(--secondary-color); 
+        position: relative;
+        padding-left: 50%; 
+        text-align: left;
+    }
+    body.dark-mode .overview-table-container td {
+        border-bottom-color: #555; /* SEPARADOR INTERNO EN MODO OSCURO - VISTA APILADA */
+    }
+
+
+    .overview-table-container td:before {
+        position: absolute;
+        top: 0.75rem;
+        left: 0.75rem;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+    body.dark-mode .overview-table-container td:before {
+        color: #66d9ef;
+    }
+
+    .overview-table-container td:nth-of-type(1):before { content: "Objetivos, Tácticas, Entregable"; }
+    .overview-table-container td:nth-of-type(2):before { content: "Materiales y Preparación"; }
 }
