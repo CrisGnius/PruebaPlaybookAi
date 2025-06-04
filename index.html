@@ -1,733 +1,427 @@
-/* Define CSS Variables (Custom Properties) */
-:root {
-    --primary-color: #00a3a3;
-    --secondary-color: #e0f2f1;
-    --background-color: #f9f9f9;
-    --text-color: #333;
-    --light-gray: #ddd;
-    --dialogue-assistant: #e0f7fa;
-    --dialogue-user: #f0f0f0;
-
-    /* Dark Mode Colors */
-    --dark-primary-color: #007979; /* Verde azulado oscuro */
-    --dark-secondary-color: #005050;
-    --dark-background-color: #121212;
-    --dark-text-color: #eee;
-    --dark-light-gray: #444;
-    --dark-dialogue-assistant: #263238;
-    --dark-dialogue-user: #37474f;
-}
-
-body {
-    font-family: 'Roboto', sans-serif;
-    line-height: 1.6;
-    margin: 0;
-    padding: 0;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    transition: background-color 0.3s ease, color 0.3s ease;
-    font-size: 1.1rem; /* Increased base font size */
-}
-
-/* HEADER - Responsive adjustments for mobile first */
-header {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 1rem;
-    text-align: center;
-    margin-bottom: 1rem;
-    display: flex;
-    flex-direction: column; /* Apila el título y los widgets en móvil */
-    align-items: center; /* Centra los ítems apilados */
-    justify-content: center; /* Centra el contenido si hay espacio */
-    gap: 1rem; /* Espacio entre los elementos */
-}
-
-header h1 {
-    font-size: 1.75em;
-    margin: 0;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Centra el título en móvil */
-    text-align: center;
-    width: 100%; /* Asegura que el título ocupe todo el ancho disponible */
-}
-
-/* Asumiendo que el ícono es ahora un <span> con texto o un <i> de Font Awesome */
-header h1 .book-icon {
-    margin-right: 0.5rem;
-    font-size: 1.2em; /* Ajustado para que se vea bien con el texto */
-}
-
-.header-widgets {
-    display: flex;
-    flex-direction: column; /* Apila el timer y el theme toggle en móvil */
-    gap: 15px; /* Espacio entre los widgets */
-    width: 100%; /* Ocupa todo el ancho disponible */
-    align-items: center; /* Centra los widgets apilados */
-}
-
-.timer-container {
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Centra el timer y sus botones */
-    gap: 10px;
-    color: white;
-    font-size: 1.2rem;
-    padding: 0.75rem 1rem;
-    border-radius: 15px;
-    background-color: rgba(0,0,0, 0.2);
-    width: fit-content; /* Se ajusta al contenido */
-}
-
-.timer-container button {
-    background-color: var(--secondary-color);
-    color: var(--text-color);
-    border: none;
-    padding: 0.5rem 0.75rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.timer-container button:hover {
-    background-color: #b2dfdb;
-}
-
-.theme-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Centra el toggle */
-}
-
-.theme-toggle i {
-    margin: 0 0.5rem;
-    color: white;
-}
-
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc; /* Default background for unchecked */
-    transition: .4s;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white; /* The circular knob */
-    transition: .4s;
-}
-
-input:checked + .slider {
-    background-color: var(--primary-color);
-}
-
-input:focus + .slider {
-    box-shadow: 0 0 1px var(--primary-color); /* Usar primary color para consistencia */
-}
-
-input:checked + .slider:before {
-    transform: translateX(26px);
-}
-
-.slider.round {
-    border-radius: 34px;
-}
-
-.slider.round:before {
-    border-radius: 50%;
-}
-
-/* MAIN LAYOUT - Mobile First: Sidebar y Content apilados */
-.main-container {
-    display: flex;
-    flex-direction: column; /* Sidebar y Main Content apilados en móvil */
-    min-height: calc(100vh - 6rem); /* Subtract header height */
-}
-
-/* ASIDE (Activity List) - Mobile First */
-aside.activity-list {
-    width: 100%; /* Ocupa todo el ancho en móvil */
-    background-color: var(--secondary-color);
-    padding: 1rem;
-    border-right: none; /* Sin borde a la derecha en móvil */
-    border-bottom: 1px solid var(--light-gray); /* Añade un borde inferior */
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-}
-
-aside.activity-list h2 {
-    font-size: 1.25em;
-    margin-bottom: 1rem;
-    color: var(--text-color);
-    text-align: center; /* Centra el título de actividades en móvil */
-}
-
-aside.activity-list ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex; /* Los números se distribuyen horizontalmente */
-    flex-wrap: wrap; /* Permite que los números se envuelvan */
-    justify-content: center; /* Centra los números horizontalmente */
-    gap: 0.75rem; /* Espacio entre los números */
-}
-
-aside.activity-list li {
-    margin-bottom: 0; /* Ya no es necesario con gap */
-}
-
-aside.activity-list a {
-    color: var(--text-color);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5em; /* Tamaño para los números */
-    width: auto;
-    padding: 0.5rem 1.2rem;
-    background-color: rgba(0, 0, 0, 0.1);
-    border-radius: 30px;
-    font-weight: bold;
-    font-family: 'Arial', sans-serif;
-    transition: background-color 0.2s ease;
-}
-/* Estilo específico para el enlace "De un Vistazo" si es un ícono o texto corto */
-aside.activity-list a[href="#activity-0"] {
-    font-size: 1.3em; /* Ligeramente más pequeño si es un ícono */
-    padding: 0.6rem 1rem; /* Ajustar padding */
-}
-
-
-aside.activity-list a:hover {
-    background-color: rgba(0, 0, 0, 0.2);
-}
-
-.sidebar-info {
-    margin-top: 1.5rem; /* Más espacio para el texto informativo */
-    font-size: 0.8em;
-    color: #666;
-    padding: 0 0.5rem;
-}
-
-.sidebar-info p {
-    margin-bottom: 0.5rem;
-    text-align: center; /* Centra el texto informativo */
-}
-
-/* MAIN CONTENT */
-main.content {
-    flex: 1;
-    padding: 1rem;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    overflow-y: auto;
-}
-
-.progress-bar {
-    background-color: var(--light-gray);
-    height: 0.7rem;
-    margin-bottom: 1.5rem;
-    border-radius: 5px;
-    overflow: hidden;
-}
-
-.progress {
-    background-color: var(--primary-color);
-    height: 100%;
-    width: 0%;
-    transition: width 0.3s ease;
-    border-radius: 5px;
-}
-
-/* Toggle Dialogues Button */
-#toggle-dialogues {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 0.75rem 1rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.2s ease;
-    margin-bottom: 1.5rem;
-    display: block; /* Asegura que el botón ocupe su propia línea */
-    width: fit-content; /* Se ajusta al contenido */
-    margin-left: auto; /* Centra el botón */
-    margin-right: auto; /* Centra el botón */
-}
-
-#toggle-dialogues:hover {
-    background-color: var(--dark-primary-color);
-}
-
-/* Activity Cards */
-.activity-card {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 1.5rem;
-    padding: 1rem;
-    transition: opacity 0.333s ease;
-    opacity: 0; /* Initially set opacity to 0 */
-    position: absolute; /* Needed for the fade effect with display: block/none */
-    width: calc(100% - 2rem); /* Set width to container width minus padding */
-}
-
-.activity-card.active {
-    display: block;
-    opacity: 1;
-    position: relative; /* Reset positioning for active card */
-}
-
-.activity-card > h2 {
-    display: flex; /* Para alinear el ícono con el texto del título */
-    align-items: center;
-    font-size: 1.5em; /* Tamaño del título de la actividad */
-    margin-bottom: 0.5rem; /* Reducido para acercar el subtítulo */
-}
-
-.activity-card > h2 .book-icon { /* Ícono dentro del h2 de la activity card */
-    margin-right: 0.5rem;
-    font-size: 1em; /* Relativo al h2 */
-}
-
-.activity-card > p {
-    color: #666; /* Activity Description Style */
-    font-size: 1em; /* Adjusted size for activity descriptions */
-    margin-bottom: 1rem; /* Espacio después de la descripción general de la actividad */
-}
-
-
-/* Steps and Step Cards */
-.steps {
-    display: grid;
-    grid-template-columns: 1fr; /* Una columna por defecto (móvil) */
-    gap: 1rem;
-}
-
-.step-card {
-    background-color: var(--secondary-color);
-    border-radius: 6px;
-    padding: 0.75rem;
-    margin-bottom: 0.75rem;
-    transition: background-color 0.3s ease;
-    display: grid;
-    grid-template-columns: 1fr; /* Contenido y diálogo apilados en móvil */
-}
-
-.step-content {
-    margin-bottom: 0.75rem;
-}
-
-.step-card h3 {
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
-    color: var(--text-color);
-}
-
-.step-card p {
-    color: #666;
-    font-size: 1em;
-}
-
-/* Collapsible and Dialogues */
-.collapsible {
-    margin-top: 0.75rem;
-}
-
-.collapsible-button {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 0.5rem 0.75rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9em;
-    transition: background-color 0.2s ease;
-    margin: 0 auto; /* Centrar el botón */
-    display: block; /* Para que margin:auto funcione */
-}
-
-.collapsible-button:hover {
-    background-color: var(--dark-primary-color);
-}
-
-.collapsible-content {
-    padding: 0.75rem;
-    border: 1px solid var(--light-gray);
-    border-radius: 4px;
-    margin-top: 0.5rem;
-    display: none; /* Hidden by default */
-}
-
-.dialogue {
-    font-style: italic;
-    padding: 0.5rem;
-    border-radius: 4px;
-}
-
-.dialogue.assistant {
-    background-color: var(--dialogue-assistant);
-    text-align: left;
-    color: var(--text-color);
-}
-
-.dialogue.user {
-    background-color: var(--dialogue-user);
-    text-align: right;
-    color: var(--text-color);
-}
-
-/* Estilos específicos para "De un Vistazo" */
-.overview-subtitle {
-    font-size: 0.9em;
-    color: #777;
-    margin-top: -0.2rem; /* Ajusta el espacio después del título h2 */
-    margin-bottom: 1rem;
-    text-align: center;
-}
-
-.overview-table-container {
-    margin-top: 1rem;
-    overflow-x: auto; /* Para tablas anchas en móviles */
-}
-
-.overview-table-container table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.9rem;
-}
-
-.overview-table-container th,
-.overview-table-container td {
-    border: 1px solid var(--light-gray);
-    padding: 0.75rem;
-    text-align: left;
-    vertical-align: top;
-}
-
-.overview-table-container th {
-    background-color: var(--secondary-color);
-    font-weight: bold;
-    color: var(--text-color);
-}
-
-.overview-table-container ul,
-.overview-table-container ol {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-    padding-left: 1.2rem;
-}
-
-.overview-table-container li {
-    margin-bottom: 0.3rem;
-}
-
-.overview-table-container strong { /* Estilo general para los "strong" dentro de la tabla */
-    font-weight: 500;
-}
-
-.overview-table-container td > strong { /* Para los títulos de sección como "Objetivos:", "Tácticas:" */
-    color: var(--primary-color);
-    display: block; 
-    margin-bottom: 0.3rem;
-    font-weight: 700; 
-}
-
-
-.overview-table-container .tactic-highlight strong {
-    color: #d32f2f; 
-    font-weight: bold; 
-}
-
-.overview-table-container a {
-    color: var(--primary-color);
-    text-decoration: underline;
-}
-
-/* Asegúrate que el contenido de "De un vistazo" no tenga steps o collapsible heredados */
-#activity-0 .steps,
-#activity-0 .collapsible {
-    display: none !important; 
-}
-
-
-/* DARK MODE STYLES - Aplicados sobre los estilos base (mobile) */
-body.dark-mode {
-    background-color: var(--dark-background-color);
-    color: var(--dark-text-color);
-}
-
-body.dark-mode header {
-    background-color: var(--dark-primary-color);
-}
-
-body.dark-mode .activity-card {
-    background-color: var(--dark-light-gray); 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-body.dark-mode .activity-card h2,
-body.dark-mode .step-card h3 {
-    color: var(--dark-text-color);
-}
-
-body.dark-mode .step-card {
-    background-color: var(--dark-secondary-color); 
-}
-
-body.dark-mode .collapsible-content {
-    border-color: var(--dark-text-color); 
-}
-
-body.dark-mode .dialogue.assistant {
-    background-color: var(--dark-dialogue-assistant);
-    color: var(--dark-text-color);
-}
-
-body.dark-mode .dialogue.user {
-    background-color: var(--dark-dialogue-user);
-    color: var(--dark-text-color);
-}
-
-body.dark-mode .progress-bar {
-    background-color: var(--dark-light-gray);
-}
-
-body.dark-mode aside.activity-list {
-    background-color: var(--dark-secondary-color);
-    border-color: var(--dark-light-gray);
-}
-
-body.dark-mode aside.activity-list h2 {
-    color: var(--dark-text-color);
-}
-
-body.dark-mode aside.activity-list a {
-    color: var(--dark-text-color);
-    background-color: var(--dark-primary-color); 
-}
-body.dark-mode aside.activity-list a[href="#activity-0"] {
-    /* Mantener consistencia o ajustar si es necesario */
-}
-
-
-body.dark-mode aside.activity-list a:hover {
-    background-color: var(--primary-color); 
-}
-
-body.dark-mode .sidebar-info {
-   color: #ccc;
-}
-
-body.dark-mode .activity-card > p { 
-    color: #bbb; 
-}
-
-body.dark-mode .step-card p { 
-    color: #ccc;
-}
-
-body.dark-mode #toggle-dialogues {
-    background-color: var(--dark-primary-color);
-}
-
-body.dark-mode .timer-container {
-    color: var(--dark-text-color);
-}
-
-body.dark-mode .timer-container button {
-    background-color: var(--secondary-color); 
-    color: var(--text-color);
-}
-
-body.dark-mode .timer-container button:hover {
-    background-color: #b2dfdb;
-}
-
-/* Dark Mode para "De un Vistazo" */
-body.dark-mode .overview-subtitle {
-    color: #bbb;
-}
-
-body.dark-mode .overview-table-container th,
-body.dark-mode .overview-table-container td {
-    border-color: #ccc; /* LÍNEAS DE TABLA EN MODO OSCURO */
-}
-
-body.dark-mode .overview-table-container th {
-    background-color: var(--dark-secondary-color); 
-    color: var(--dark-text-color);
-}
-
-body.dark-mode .overview-table-container td > strong { 
-    color: #66d9ef; 
-}
-
-body.dark-mode .overview-table-container .tactic-highlight strong {
-    color: #ff7979; 
-}
-
-body.dark-mode .overview-table-container a {
-    color: #66d9ef; 
-}
-
-
-/* MEDIA QUERY FOR DESKTOP (or larger tablets) */
-@media (min-width: 768px) {
-    /* HEADER - Desktop Layout */
-    header {
-        flex-direction: row; 
-        justify-content: space-between; 
-        align-items: center; 
-    }
-
-    header h1 {
-        justify-content: flex-start; 
-        width: auto; 
-    }
-
-    .header-widgets {
-        flex-direction: row; 
-        width: auto; 
-        justify-content: flex-end; 
-    }
-
-    /* MAIN LAYOUT - Desktop Layout: Sidebar y Content lado a lado */
-    .main-container {
-        flex-direction: row;
-    }
-
-    /* ASIDE (Activity List) - Desktop Layout */
-    aside.activity-list {
-        width: 200px; 
-        border-right: 1px solid var(--light-gray); 
-        border-bottom: none; 
-        padding: 1rem; 
-    }
-
-    aside.activity-list h2 {
-        text-align: left; 
-    }
-
-    aside.activity-list ul {
-        flex-direction: column; 
-        align-items: flex-start; 
-        gap: 0; 
-    }
-
-    aside.activity-list li {
-        margin-bottom: 0.75rem; 
-    }
-
-    .sidebar-info p {
-        text-align: left; 
-    }
-
-    /* Toggle Dialogues Button - Desktop Layout */
-    #toggle-dialogues {
-        margin-left: 0; 
-        margin-right: auto; 
-        width: auto; 
-    }
-
-    /* Step Cards - Two column grid layout for steps */
-    .step-card {
-        grid-template-columns: 1fr 1fr; 
-        gap: 1rem; 
-    }
-
-    .step-content {
-        margin-bottom: 0rem; 
-    }
-
-    .collapsible-button {
-        margin: 0 auto;
-        display: block;
-    }
-    .overview-table-container {
-        /* No specific changes for desktop unless the table is too cramped */
-    }
-}
-
-/* Responsive para la tabla de "De un Vistazo" en móviles (si se quiere apilar) */
-@media (max-width: 600px) { 
-    .overview-table-container table,
-    .overview-table-container thead,
-    .overview-table-container tbody,
-    .overview-table-container th,
-    .overview-table-container td,
-    .overview-table-container tr {
-        display: block;
-    }
-
-    .overview-table-container thead tr {
-        position: absolute;
-        top: -9999px;
-        left: -9999px; 
-    }
-
-    .overview-table-container tr {
-        margin-bottom: 1rem;
-        border: 1px solid var(--light-gray);
-        border-radius: 4px;
-    }
-    body.dark-mode .overview-table-container tr {
-        border-color: #ccc; /* LÍNEAS DE TABLA (TR) EN MODO OSCURO - VISTA APILADA */
-    }
-
-
-    .overview-table-container td {
-        border: none;
-        border-bottom: 1px solid var(--secondary-color); 
-        position: relative;
-        padding-left: 50%; 
-        text-align: left;
-    }
-    body.dark-mode .overview-table-container td {
-        border-bottom-color: #555; /* SEPARADOR INTERNO EN MODO OSCURO - VISTA APILADA */
-    }
-
-
-    .overview-table-container td:before {
-        position: absolute;
-        top: 0.75rem;
-        left: 0.75rem;
-        width: 45%;
-        padding-right: 10px;
-        white-space: nowrap;
-        font-weight: bold;
-        color: var(--primary-color);
-    }
-    body.dark-mode .overview-table-container td:before {
-        color: #66d9ef;
-    }
-
-    .overview-table-container td:nth-of-type(1):before { content: "Objetivos, Tácticas, Entregable"; }
-    .overview-table-container td:nth-of-type(2):before { content: "Materiales y Preparación"; }
-}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playbook</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+    <header>
+        <h1><span class="book-icon">📋</span> <strong>Playbook</strong></h1>
+        <div class="header-widgets">
+            <div class="timer-container">
+                <span id="timer">⏱️ 00:00</span>
+                <button id="startStop">Start</button>
+                <button id="reset">Reset</button>
+            </div>
+            <div class="theme-toggle">
+                <i class="fas fa-sun"></i>
+                <label class="switch">
+                    <input type="checkbox" id="theme-toggle-input">
+                    <span class="slider round"></span>
+                </label>
+                <i class="fas fa-moon"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <aside class="activity-list">
+            <h2>Actividades</h2>
+            <ul>
+                <li><a href="#activity-0">📝</a></li> <!-- Cambiado a ícono o texto corto -->
+                <li><a href="#activity-1">1</a></li>
+                <li><a href="#activity-2">2</a></li>
+                <li><a href="#activity-3">3</a></li>
+                <li><a href="#activity-4">4</a></li>
+                <li><a href="#activity-5">5</a></li>
+            </ul>
+
+            <div class="sidebar-info">
+                <p>💡 Cada actividad está cuidadosamente diseñada para involucrar a los estudiantes.</p>
+                <p>⏱️ Se proporcionan estimaciones de tiempo para cada actividad para ayudarle a mantener el rumbo.</p>
+            </div>
+        </aside>
+
+        <main class="content">
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+
+            <button id="toggle-dialogues">Mostrar todos los diálogos</button>
+
+            <!-- SECCIÓN "DE UN VISTAZO" (ANTES ACTIVITY-0) -->
+            <div class="activity-card" id="activity-0">
+                <h2><span class="book-icon">📝</span> De un Vistazo: Sesión Gnius</h2>
+                <p class="overview-subtitle">Resumen rápido de objetivos, materiales y preparación para el facilitador.</p>
+                <div class="overview-table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 50%;">Objetivos, Tácticas y Entregable</th>
+                                <th style="width: 50%;">Materiales Específicos y Preparación Previa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong>Objetivos:</strong>
+                                    <ul>
+                                        <li>Crear un ambiente acogedor y activar la IA (Xolo) con el perfil de cada alumno.</li>
+                                        <li>Presentar el objetivo de la clase: "Yo puedo programar los bloques de temperatura, nivel de luz y si... entonces... sino para desarrollar un proyecto en Micro:bit".</li>
+                                        <li>Ejemplificar el uso de los bloques de temperatura, luz y condicionales mediante un proyecto del profesor (mini estación meteorológica).</li>
+                                        <li>Guiar a los alumnos para que interactúen con la IA (Xolo) para aprender sobre los bloques específicos (Temperatura, Nivel de Luz, Si...entonces...sino).</li>
+                                        <li>Facilitar que los alumnos diseñen y programen su propio proyecto en Micro:bit utilizando los bloques aprendidos, con apoyo de la IA para generar pseudocódigo.</li>
+                                        <li>Fomentar la compartición de proyectos y la retroalimentación entre pares (Gnius STORM).</li>
+                                    </ul>
+                                    <strong>Tácticas Principales:</strong>
+                                    <ul>
+                                        <li><strong class="tactic-highlight">Saludo Interactivo con IA:</strong> Activación y personalización de la IA.</li>
+                                        <li><strong class="tactic-highlight">"I Can Statement" + Ejemplificación:</strong> Clarificar objetivos y mostrar posibilidades.</li>
+                                        <li><strong class="tactic-highlight">AI GYM:</strong> Aprendizaje guiado por IA sobre bloques específicos.</li>
+                                        <li><strong class="tactic-highlight">Brain Spark A:</strong> Proceso de ideación, diseño (pseudocódigo con IA) y programación individual.</li>
+                                        <li><strong class="tactic-highlight">Gnius STORM (Think-Pair-Share):</strong> Compartición, prueba y retroalimentación de proyectos.</li>
+                                    </ul>
+                                    <strong>Entregable Clave:</strong>
+                                    <ul>
+                                        <li>"Yo voy a aprender..." statement individual.</li>
+                                        <li>Proyecto individual programado en MakeCode (simulador y/o Micro:bit física) utilizando bloques de temperatura, nivel de luz y condicionales "si...entonces...sino".</li>
+                                        <li>Retroalimentación recibida y dada durante Gnius STORM.</li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <strong>Materiales Específicos:</strong>
+                                    <ul>
+                                        <li>Proyector o pantalla interactiva.</li>
+                                        <li>Conexión a internet estable.</li>
+                                        <li>Acceso a MakeCode (<a href="https://makecode.microbit.org/" target="_blank">https://makecode.microbit.org/</a>).</li>
+                                        <li>Micro:bits y baterías (si se usarán físicamente).</li>
+                                        <li>Presentación de diapositivas (Diapositivas 1-16 mencionadas en las actividades).</li>
+                                        <li>Chat de "Agente Gnius" (Xolo IA) activo y funcionando.</li>
+                                        <li>Ejemplo de proyecto del profesor (mini estación meteorológica) preparado.</li>
+                                    </ul>
+                                    <strong>Preparación Previa para ESTA Sesión:</strong>
+                                    <ol>
+                                        <li><strong>Revisión de Misión (Interna):</strong>
+                                            <ul>
+                                                <li>Verificar conexión a internet.</li>
+                                                <li>Confirmar acceso y funcionamiento de MakeCode.</li>
+                                                <li>Asegurar disponibilidad y carga de Micro:bits/baterías.</li>
+                                                <li>Tener la presentación de diapositivas (1-16) lista y en orden.</li>
+                                                <li>Probar el chat "Agente Gnius" (Xolo) para asegurar su operatividad.</li>
+                                            </ul>
+                                        </li>
+                                        <li><strong>Familiarización:</strong> Revisar el flujo de la sesión, los diálogos sugeridos y los tiempos de cada actividad.</li>
+                                        <li><strong>Ejemplo Profesor:</strong> Tener listo y funcional el proyecto de la mini estación meteorológica para la demostración.</li>
+                                    </ol>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- FIN DE LA SECCIÓN "DE UN VISTAZO" -->
+
+            <div class="activity-card" id="activity-1">
+                <h2>⚡ Actividad 1: Saludo de I.A. con todos ⏰ 3 minutos</h2>
+                <p>Crear un ambiente acogedor, establecer el tono de la clase "Misión Gnius", recordar a la IA el perfil de cada alumno y activar la IA.</p>
+                <div class="steps">
+                    <div class="step-card">
+                        <div class="step-content">
+                            <h3>Paso 1: Saludo de I.A. con todos ⏰ 0.5 minutos</h3>
+                            <p>Proyectar diapositiva 2. Saludar a los alumnos y dar la instrucción de recordar su perfil a la IA y saludarla.</p>
+                        </div>
+                        <div class="collapsible">
+                            <button type="button" class="collapsible-button">Diálogo Sugerido</button>
+                            <div class="collapsible-content">
+                                <p class="dialogue assistant">¡Hola, Genios! 👋 ¡Bienvenidos a la Misión de hoy! Antes de comenzar, activaremos a nuestro copiloto, Xolo. Primero, saluden a Xolo y respondan las preguntas que les está haciendo.</p>
+                            </div>
+                        </div>
+                    </div>
+                      <div class="step-card">
+                        <div class="step-content">
+                            <h3>Paso 2: Saludo de I.A. con todos ⏰ 2.5 minutos</h3>
+                            <p>Recibir el saludo de la IA.</p>
+                        </div>
+                        <div class="collapsible">
+                            <button type="button" class="collapsible-button">Diálogo Sugerido</button>
+                            <div class="collapsible-content">
+                                <p class="dialogue assistant">¡Genios, veo que Xolo les está contestando y está listo para aprender con nosotros! Asegúrense de que todos hayan escrito su nombre y sus gustos. Si Xolo no les ha respondido, ¡avísenme!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="activity-card" id="activity-2">
+                <h2>⚡ Actividad 2: I Can Statement + Ejemplificación ⏰ 5 minutos</h2>
+                <p>Presentar el objetivo de la clase (dominio de bloques) y mostrar un proyecto de ejemplo creado por el profesor.</p>
+                <div class="steps">
+                    <div class="step-card">
+                        <div class="step-content">
+                            <h3>Paso 1: I Can Statement + Ejemplificación ⏰ 0.5 minutos</h3>
+                            <p>Proyectar diapositiva 3. Presentar el "I Can Statement" y el proyecto.</p>
+                        </div>
+                        <div class="collapsible">
+                            <button type="button" class="collapsible-button">Diálogo Sugerido</button>
+                            <div class="collapsible-content">
+                                <p class="dialogue assistant">"¡Genios, al final de esta misión, podrán decir con confianza: <strong>'Yo puedo programar los bloques de temperatura, nivel de luz y si... entonces... sino para desarrollar un proyecto en Micro:bit'.</strong> Pero antes de llegar ahí, vamos a plantear nuestra meta de aprendizaje. Aún no lo sabemos todo, pero estamos en camino. Para que vean lo que podemos lograr, les mostraré un proyecto que programé utilizando estos bloques: Mi proyecto fue una lámpara inteligente que cambia según la luz y la temperatura. 
+"Ahora, cada uno de ustedes va a escribir su propio 'Yo voy a aprender...'. Piensen en qué quieren lograr hoy con  los bloques a trabajar y el Micro:bit. Por ejemplo: <strong>'Hoy voy a aprender a programar los bloques de temperatura y luz para crear una alarma climática.' </strong> Si aún no lo saben, pueden escribir: 'Aprenderé y exploraré cómo programar con los bloques de temperatura y luz en Micro:bit.' ¡Escriban su afirmación ahora, tienen 1 minuto para hacerlo!"
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-content">
+                            <h3>Paso 2: Descripción General ⏰ 1 minuto</h3>
+                            <p>Describir brevemente cómo funciona la mini estación meteorológica (desde la perspectiva del profesor/usuario).</p>
+                        </div>
+                        <div class="collapsible">
+                            <button type="button" class="collapsible-button">Diálogo Sugerido</button>
+                            <div class="collapsible-content">
+                                <p class="dialogue assistant">Antes de continuar, les enseñaré un proyecto que hice yo con esos bloques. Miren, ésta mini estación meteorológica la programé para que me muestre el clima de una forma divertida. Puedo configurarla para que use la temperatura o la luz. Si la pongo en modo temperatura, me muestra un sol si hace calor, una nube si está templado y un copo de nieve si hace frío. ¡Y si la pongo en modo luz, me muestra un sol si hay mucha luz y una luna si hay poca luz!</p>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="step-card">
+                        <div class="step-content">
+                            <h3>Paso 3: Desglose (Sensores) ⏰ 1 minuto</h3>
+                            <p>Explicar cómo la Micro:bit "siente" la temperatura y la luz (desde la perspectiva del profesor/usuario).</p>
+                        </div>
+                        <div class="collapsible">
+                            <button type="button" class="collapsible-button">Diálogo Sugerido</button>
+                            <div class="collapsible-content">
+                                <p class="dialogue assistant">Esta Micro:bit es muy lista. Tiene sensores que le permiten <strong>'sentir'</strong> la temperatura y la luz. Es como si tuviera un termómetro y un ojo integrados.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-content">
+                            <h3>Paso 4: Desglose (Condiciones) ⏰ 1 minuto</h3>
+                            <p>Explicar cómo la Micro:bit decide qué ícono mostrar (desde la perspectiva del profesor/usuario).</p>
+                        </div>
+                        <div class="collapsible">
+                            <button type="button" class="collapsible-button">Diálogo Sugerido</button>
+                            <div class="collapsible-content">
+                                <p class="dialogue assistant">Yo programé la Micro:bit para que, dependiendo de lo que <strong>'sientan'</strong> sus sensores, muestre un ícono diferente. Es como si le hubiera enseñado a tomar decisiones. Por ejemplo, si el sensor de temperatura detecta que hace calor, la Micro:bit sabe que tiene que mostrar el sol.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-content">
+                            <h3>Paso 5: Desglose (Si... entonces... sino) ⏰ 1.5 minutos</h3>
+                            <p>Mencionar la estructura "si... entonces... sino" como la forma en que se programan las decisiones (sin entrar en detalles de código, desde la perspectiva del profesor).</p>
+                        </div>
+                        <div class="collapsible">
+                            <button type="button" class="collapsible-button">Diálogo Sugerido</button>
+                            <div class="collapsible-content">
+                                <p class="dialogue assistant">Para lograr que la Micro:bit tome estas decisiones, usé la instrucción <strong>'si... entonces... sino'</strong>. Es una forma de decirle a la Micro:bit: <strong>'Si ocurre esta condición, entonces haz esto; si no, haz esto otro'</strong>. ¡Ustedes aprenderán a usar esta instrucción para crear sus propios proyectos!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="activity-card" id="activity-3">
+                <h2>⚡ Actividad 3: AI GYM ⏰ 4 minutos</h2>
+                <p>Activar la interacción con Gnius Copilot y motivar a los alumnos a recibir información personalizada.</p>
+                <div class="steps">
+                    <div class="step-card">
+                        <div class="step-content">
+                            <h3>Paso 1: AI GYM ⏰ 1 minuto</h3>
+                            <p>Proyectar diapositiva 8. Introducción a AI GYM.</p>
+                        </div>
+                        <div class="collapsible">
+                            <button type="button" class="collapsible-button">Diálogo Sugerido</button>
+                            <div class="collapsible-content">
+                                <p class="dialogue assistant">¡Genios, prepárense para una descarga de conocimiento directamente a sus cerebros! 🧠⚡️ Xolo está listo para enseñarnos a usar los bloques de <strong>temperatura, nivel de luz y 'si... entonces... sino'</strong>. Escriban en el chat: <strong>'Mi perfil [escribe tu perfil] y quiero que me enseñes a usar los bloques: Temperatura, nivel de luz y si...entonces...sino'</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-content">
+                            <h3>Paso 2: AI GYM ⏰ 3 minutos</h3>
+                            <p>Interacción con la IA y preguntas.</p>
+                        </div>
+                        <div class="collapsible">
+                            <button type="button" class="collapsible-button">Diálogo Sugerido</button>
+                            <div class="collapsible-content">
+                                <p class="dialogue assistant">(Mientras los alumnos interactúan con la IA) ¡Excelente! Están aprendiendo directamente de Xolo. Recuerden que, si quieren profundizar en algún tema, o si algo no les queda claro, pueden hacerle preguntas específicas. <br>
+                                    Por ejemplo:<br>
+                                    <strong>* 'No me quedó muy claro. Puedes explicarmelo de una manera diferente?'</strong><br>
+                                    <strong>* 'Explícamelo contándome una historia'</strong><br>
+                                    <strong>* 'Dame un ejemplo con [tema de su elección]'</strong><br>
+                                    <strong>* '¿Qué es el bloque nivel de luz y cómo funciona?'</strong><br>
+                                    <strong>* 'Explícame qué es si... entonces... sino.'</strong><br>
+                                    <strong>* '¿Cómo puedo usar si...entonces...sino con los bloques de temperatura o nivel de luz?'</strong><br>
+                                    ¡Xolo está aquí para ayudarles!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="activity-card" id="activity-4">
+                 <h2>⚡ Actividad 4: Brain Spark A ⏰ 18 minutos</h2>
+                <p>Proceso de diseño y programación de un proyecto propio con Micro:bit.</p>
+                <div class="steps">
+                    <div class="step-card">
+                        <div class="step-content">
+                            <h3>Paso 1: Brain Spark A ⏰ 0.5 minutos</h3>
+                            <p>Proyectar diapositiva 9. Pregunta activadora.</p>
+                        </div>
+                        <div class="collapsible">
+                            <button type="button" class="collapsible-button">Diálogo Sugerido</button>
+                            <div class="collapsible-content">
+                                <p class="dialogue assistant">¡Genios, es hora de un desafío relámpago! ⚡️ Piensen:<br>
+                                <strong>¿Qué proyectos pueden crear usando los sensores de temperatura, luz y la estructura 'si... entonces... sino', con la Micro:bit?</strong> 🤔 ¡Cualquier idea de proyecto es válida! Para avanzar, escriban en el chat con Xolo:  <strong>'Pasemos al Brain Spark'.</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-content">
+                            <h3>Paso 2: Brain Spark A ⏰ 1 minuto</h3>
+                            <p>Proyectar diapositiva 10. Exploración de ideas.</p>
+                        </div>
+                        <div class="collapsible">
+                            <button type="button" class="collapsible-button">Diálogo Sugerido</button>
+                            <div class="collapsible-content">
+                                 <p class="dialogue assistant">
+                                    Tienen 1 minuto para pensar en ideas.<br>
+                                    <strong>* ¿Ya tienen una? ¡Perfecto!</strong><br>
+                                    <strong>* ¿No se les ocurre nada? ¡Xolo al rescate!</strong><br>
+                                    <strong>* ¿Quieren aplicar esto a otra clase? ¡Pregúntenle a Xolo!</strong><br>
+                                    Por ejemplo: <strong>'¿Qué proyecto puedo hacer con Micro:bit que use temperatura/luz para [tema de otra clase]?'</strong>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-content">
+                            <h3>Paso 3: Brain Spark A ⏰ 2.5 minutos</h3>
+                            <p>Proyectar diapositiva 11. Instrucción para pedir pseudocódigo.</p>
+                        </div>
+                        <div class="collapsible">
+                            <button type="button" class="collapsible-button">Diálogo Sugerido</button>
+                            <div class="collapsible-content">
+                                <p class="dialogue assistant">¡Ahora, la parte crucial! Tienen 2 minutos para desarrollar su idea de la mano de Xolo y pedirle que les genere un pseudocódigo. Sean muy específicos sobre lo que quieren que haga su proyecto. Cuanto más claros sean, mejor será el pseudocódigo. ¡Recuerden que el pseudocódigo es como una receta para su programa!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-content">
+                            <h3>Paso 4: Brain Spark A ⏰ 14 minutos</h3>
+                            <p>Proyectar diapositiva 12. Tiempo de implementación, preguntas guía y recordatorio de la Micro:bit.</p>
+                        </div>
+                        <div class="collapsible">
+                            <button type="button" class="collapsible-button">Diálogo Sugerido</button>
+                            <div class="collapsible-content">
+                                <p class="dialogue assistant">
+                                    ¡Y ahora, a programar! Tienen 14 minutos para convertir ese pseudocódigo en bloques de MakeCode, probarlo y hacer debugging. Recuerden chicos, Xolo es un agente de IA, los agentes de IA pueden cometer errores. Es posible que el código que Xolo les genere no funcione a la primera, es ahí donde entran ustedes. Trabajar con IA es un proceso constante de revisión y mejora continua, si algo no funciona, descríbanle a Xolo el problema a detalle para que pueda aprender con ustedes. En resumen: <br>
+                                    <strong>* Prueben en el simulador.</strong><br>
+                                    <strong>* Si algo no funciona, ¡díganselo a Xolo!</strong><br>
+                                    <strong>* Iteren, ¡programar se trata de eso!</strong><br>
+                                    Cuando su programa funcione en el simulador, ¡pasen por su Micro:bit , conéctenla y descarguen el código! Recuerden que en la siguiente actividad ¡compartirán sus proyectos!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-content">
+                            <h3>Paso 5: Brain Spark A ⏰ 0.5 minutos</h3>
+                            <p>Explicar brevemente Gnius Storm.</p>
+                        </div>
+                        <div class="collapsible">
+                            <button type="button" class="collapsible-button">Diálogo Sugerido</button>
+                            <div class="collapsible-content">
+                                <p class="dialogue assistant">¡Genios, es hora de guardar sus trabajos! ¡Prepárense porque en la próxima actividad compartirán sus proyectos con sus compañeros!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="activity-card" id="activity-5">
+                <h2>⚡ Actividad 5: Gnius STORM ⏰ 5 minutos</h2>
+                <p>Compartir proyectos, recibir retroalimentación y reflexionar.</p>
+                <div class="steps">
+                    <div class="step-card">
+                        <div class="step-content">
+                            <h3>Paso 1: Gnius STORM (Think - Individual) ⏰ 0.5 minutos</h3>
+                            <p>Proyectar diapositiva 13. Instrucción para la reflexión individual.</p>
+                        </div>
+                        <div class="collapsible">
+                            <button type="button" class="collapsible-button">Diálogo Sugerido</button>
+                            <div class="collapsible-content">
+                                <p class="dialogue assistant">
+                                     ¡Genios, antes de compartir sus proyectos, tómense un momento para pensar en su propio trabajo! Reflexionen:<br>
+                                    <strong>¿Qué crearon?</strong><br>
+                                    <strong>¿Cómo funciona?</strong><br>
+                                    <strong>¿Están contentos con el resultado?</strong>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-content">
+                            <h3>Paso 2: Gnius STORM (Pair - Parejas) ⏰ 2 minutos</h3>
+                            <p>Proyectar diapositiva 14. Instrucciones para el intercambio.</p>
+                        </div>
+                        <div class="collapsible">
+                            <button type="button" class="collapsible-button">Diálogo Sugerido</button>
+                            <div class="collapsible-content">
+                                <p class="dialogue assistant">
+                                    ¡Ahora, júntense en parejas! Intercambien sus Micro:bits. Cada uno mostrará su proyecto a su compañero y le explicará cómo funciona. ¡El compañero lo probará! Mientras lo prueban, el creador puede responder estas preguntas:<br>
+                                    <strong>* '¿Qué hace mi proyecto?'</strong><br>
+                                    <strong>* '¿Cómo funciona?'</strong><br>
+                                    <strong>* '¿Para qué podría servir?'</strong>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-content">
+                            <h3>Paso 3: Gnius STORM (Share - Retroalimentación) ⏰ 1.5 minutos</h3>
+                            <p>Proyectar diapositiva 15. Instrucciones para la retroalimentación.</p>
+                        </div>
+                        <div class="collapsible">
+                            <button type="button" class="collapsible-button">Diálogo Sugerido</button>
+                            <div class="collapsible-content">
+                                <p class="dialogue assistant">
+                                    ¡Es hora de la retroalimentación! Sean honestos, pero amables. Después de probar el proyecto de su compañero, díganle:<br>
+                                   <strong>* '¿Qué te gustó de su proyecto?'</strong><br>
+                                   <strong>* '¿Qué crees que podría mejorar?'</strong><br>
+                                   <strong>* '¿Se te ocurre alguna otra idea para usar los bloques que aprendió?'</strong><br>
+                                    ¡Ayúdense mutuamente a crear proyectos aún más geniales!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-content">
+                            <h3>Paso 4: Gnius STORM (Reflexión Final) ⏰ 0.5 minutos</h3>
+                            <p>Proyectar diapositiva 16. Instrucción para la reflexión final.</p>
+                        </div>
+                        <div class="collapsible">
+                            <button type="button" class="collapsible-button">Diálogo Sugerido</button>
+                            <div class="collapsible-content">
+                                <p class="dialogue assistant">
+                                    ¡Excelente trabajo, Genios! Ahora, tómense un último momento para reflexionar:<br>
+                                    <strong>* '¿Qué aprendieron al compartir su proyecto?'</strong><br>
+                                    <strong>* '¿Qué ideas nuevas obtuvieron de sus compañeros?'</strong>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
